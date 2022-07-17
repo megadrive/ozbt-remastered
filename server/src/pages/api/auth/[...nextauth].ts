@@ -1,5 +1,5 @@
-import NextAuth, { type NextAuthOptions } from "next-auth";
-import GithubProvider from "next-auth/providers/github";
+import NextAuth, { Session, type NextAuthOptions } from "next-auth";
+import TwitchProvider from "next-auth/providers/twitch";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 // Prisma adapter for NextAuth, optional and can be removed
@@ -10,9 +10,9 @@ export const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET,
+    TwitchProvider({
+      clientId: process.env.TWITCH_ID!,
+      clientSecret: process.env.TWITCH_SECRET!,
     }),
     // ...add more providers here
     CredentialsProvider({
@@ -31,5 +31,9 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
 };
+
+export type AuthSessionProps = {
+  session: Session;
+}
 
 export default NextAuth(authOptions);
